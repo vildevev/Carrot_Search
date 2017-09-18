@@ -13,17 +13,8 @@ def initialize(matrix)
 	@carrot_count = 0 
 end 
 
-def find_center
-	if @matrix[0].length.odd? 
-		p "odd column length"
-	else 
-		p "even column length"
-	end 
-	if @matrix.length.odd? 
-		p "odd row count"
-	else 
-		p "even row count"
-	end 
+def find_possible_centers(size)
+  size.odd? ? [size/2] : [(size/2)-1, size/2]
 end 
 
 end 
