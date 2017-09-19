@@ -31,6 +31,13 @@ def determine_position(rows, columns)
   @current_column = values.max_by{ |k,v| k }[1][1]
 end 
 
+def possible_moves 
+  rows = [(@current_row - 1), (@current_row + 1)]
+  columns = [(@current_column - 1), (@current_column + 1)] 
+  determine_position(rows, columns) 
+end 
+
+
 # Adds value to carrot count array, also sets value of square to 0 
 def eat_carrot 
 	square = @matrix[@current_row][@current_column]
