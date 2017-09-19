@@ -46,3 +46,13 @@ def eat_carrot
 end 
 
 end 
+
+def runner
+  garden = Carrot_Search.new([[5,7,8,6,3],[0,0,7,0,4],[4,6,3,4,9],[3,1,0,5,8]])
+  p garden.matrix
+  start_rows = find_possible_centers(garden.matrix.length)
+  start_columns = find_possible_centers(garden.matrix[0].length)
+  determine_position(start_rows, start_columns)
+end 
+
+runner 
