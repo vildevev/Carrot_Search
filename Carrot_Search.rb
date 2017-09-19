@@ -1,6 +1,3 @@
-test = [[5,7,8,6,3],[0,0,7,0,4],[4,6,3,4,9],[3,1,0,5,8]]
-# should return 27 
-
 class Carrot_Search 
   attr_accessor :current_row, :current_column, :matrix, :carrot_count
   # 1. Find center, or the highest number closest to it 
@@ -9,11 +6,11 @@ class Carrot_Search
   # 4. Repeat step 2 until it there are no adjacent squares other than 0's
   # 5. Break loop, return carrot_count 
 
-def initialize
+def initialize(matrix)
   # set row and column variables to center 
   @current_column = 0
   @current_row = 0
-  @matrix = [[5,7,8,6,3],[0,0,7,0,4],[4,6,3,4,9],[3,1,0,5,8]]
+  @matrix = matrix
   @carrot_count = 0 
   @rabbit_asleep = false 
 end 
@@ -35,15 +32,28 @@ def determine_position(rows, columns, start=false)
 end 
 
 def possible_moves 
-  moves = { @matrix[@current_row + 1][@current_column] => [(@current_row + 1), @current_column], @matrix[@current_row - 1][@current_column] => [(@current_row - 1), @current_column], @matrix[@current_row][@current_column + 1] => [@current_row, (@current_column + 1)],
-  @matrix[@current_row][@current_column - 1] => [@current_row, (@current_column - 1)]}
-  
-  @current_row = moves.max_by{ |k,v| k }[1][0]
+  moves = Hash.new 
+  if (@current_row + 1) <= @matrix.length 
+    moves[@matrix[@current_row + 1][@current_column]] = [(@current_row + 1),@current_column]
+  end 
+  if (@current_row - 1) >= 0
+    moves[@matrix[@current_row - 1][@current_column]] = [(@current_row - 1),@current_column]
+  end 
+  if (@current_column + 1) <= @matrix[0].length 
+    moves[@matrix[@current_row][@current_column + 1]] = [@current_row,(@current_column + 1)]
+  end
+  if (@current_column - 1) >= 0 
+    moves[@matrix[@current_row][@current_column - 1]] = [@current_row,(@current_column - 1)]
+  end 
+  @current_row = moves.max_by{ |k,v| k }[1][0] 
   @current_column = moves.max_by{ |k,v| k }[1][1]
 end 
 
 def eat_carrot 
   square = @matrix[@current_row][@current_column]
+  if square == 0 
+    return @rabbit_asleep = true 
+  end 
   @carrot_count += square 
   @matrix[@current_row][@current_column] = 0 
 end 
@@ -57,16 +67,11 @@ def runner
     eat_carrot
     possible_moves
   end 
+  @carrot_count
 end 
 
 end 
 
-test = Carrot_Search.new
-# p test.carrot_count
+test = Carrot_Search.new([[5,7,8,6,3],[0,0,7,0,4],[4,6,3,4,9],[3,1,0,5,8]])
 test.runner 
-# p test.current_column
-# p test.current_row
-# p test.carrot_count
-p test.current_column
-p test.current_row
-p test.carrot_count
+
